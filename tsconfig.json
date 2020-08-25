@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true,
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "target": "ES2018",
+    "moduleResolution": "node",
+    "types": ["node"],
+    "baseUrl": "./",
+    "paths": {
+      "@nitrous/drivers/*": ["src/*"],
+      "@tests/*": ["tests/*"]
+    }
+  },
+  "references": [{ "path": "./src" }]
+}

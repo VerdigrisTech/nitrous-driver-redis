@@ -1,0 +1,65 @@
+name: test
+
+on:
+  push:
+    paths-ignore:
+      - "*.md"
+
+jobs:
+  lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
+      - name: Setup Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/ppackage-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            ${{ runner.os }}-
+      - name: Install dependencies
+        run: npm ci
+      - name: Run ESLint
+        run: npm run lint
+
+  test:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node: ['10', '12', '14']
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v2
+    - name: Setup Node.js ${{ matrix.node }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - name: Cache dependencies
+      uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runnerr.os }}-node-${{ matrix.node }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-${{ matrix.node }}
+          ${{ runner.os }}-node-
+          ${{ runner.os }}-
+    - name: Install dependencies
+      run: npm ci
+    - name: Run tests
+      run: npx nyc --reporter=lcov mocha
+    - name: Upload coverage report
+      if: matrix.node == 12
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CCODECOV_TOKEN }}

@@ -1,0 +1,64 @@
+{
+  "name": "@verdigris/nitrous-driver-redis",
+  "version": "1.0.0",
+  "description": "Redis driver for nitrous.js",
+  "author": "Andrew Jo <andrew@verdigris.co> (https://verdigris.co)",
+  "license": "BSD-3-Clause",
+  "main": "dist/redis.js",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc mocha",
+    "lint": "eslint --ext .ts .",
+    "format": "prettier src/**/*.ts --write",
+    "build": "tsc -b src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VerdigrisTech/nitrous-driver-redis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/VerdigrisTech/nitrous-driver-redis/labels/bug"
+  },
+  "homepage": "https://github.com/VerdigrisTech/nitrous-driver-redis#readme",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "peerDependencies": {
+    "@verdigris/nitrous": "^2.0.0"
+  },
+  "dependencies": {
+    "@verdigris/nitrous": "^1.0.2",
+    "redis": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.12",
+    "@types/mocha": "^8.0.3",
+    "@types/redis": "^2.8.26",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "chai": "^4.2.0",
+    "eslint": "^7.7.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.13",
+    "mocha": "^8.1.2",
+    "nyc": "^15.1.0",
+    "prettier": "^2.1.0",
+    "ts-node": "^9.0.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.9.7"
+  },
+  "keywords": [
+    "node",
+    "cache",
+    "caching",
+    "framework",
+    "redis",
+    "typescript"
+  ],
+  "types": "dist/redis.d.ts",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
