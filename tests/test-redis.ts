@@ -2,7 +2,7 @@ import "mocha";
 import { expect } from "chai";
 
 import { Cache, Driver } from "@verdigris/nitrous";
-import Redis from "@nitrous/drivers/redis";
+import Redis from "@nitrous/drivers/index";
 
 import { sleep } from "@tests/util";
 
