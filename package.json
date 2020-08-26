@@ -55,7 +55,7 @@
     "redis",
     "typescript"
   ],
-  "types": "dist/redis.d.ts",
+  "types": "dist/index.d.ts",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
