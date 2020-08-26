@@ -27,7 +27,6 @@
     "@verdigris/nitrous": "^2.0.0"
   },
   "dependencies": {
-    "@verdigris/nitrous": "^1.0.2",
     "redis": "^3.0.2"
   },
   "devDependencies": {
