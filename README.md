@@ -10,7 +10,8 @@ Redis driver for nitrous.js.
 
 ## Usage
 
-This is a plugin to [nitrous.js][nitrous-js].
+This is a plugin to [nitrous.js][nitrous-js]. Make sure it is already installed
+as a dependency to your project.
 
 ### Getting started
 
