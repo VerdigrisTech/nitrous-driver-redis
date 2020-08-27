@@ -35,11 +35,13 @@ export default class Redis extends Driver {
       this._client = createClient(this._options);
 
       const onEnd = function () {
-        // Set closed to true when user explicitly requested close.
-        self._closed = this.closing;
+        // Distinguish between whether connection closed due to user request.
+        if (this.closing) {
+          self._closed = true;
 
-        // Detach event listener once closed.
-        self._client.off("end", onEnd);
+          // Detach event listener once closed.
+          self._client.off("end", onEnd);
+        }
       };
 
       this._client.on("end", onEnd);
