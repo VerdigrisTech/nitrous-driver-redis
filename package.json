@@ -38,6 +38,7 @@
     "@verdigris/nitrous": "^2.0.0",
     "chai": "^4.2.0",
     "eslint": "^7.7.0",
+    "eslint-config-prettier": "^6.11.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.13",
     "mocha": "^8.1.2",
