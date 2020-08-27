@@ -34,6 +34,10 @@ export default class Redis extends Driver {
     return this._client;
   }
 
+  private _ping(): Promise<string> {
+    return promisify(this.client.ping).bind(this.client)();
+  }
+
   private _keys(pattern: string): Promise<string[]> {
     return promisify(this.client.keys).bind(this.client)(pattern);
   }
@@ -64,6 +68,10 @@ export default class Redis extends Driver {
 
   private _delete(keys: string | string[]): Promise<number> {
     return promisify(this.client.del).bind(this.client)(keys);
+  }
+
+  public async isConnected(): Promise<boolean> {
+    return (await this._ping()) === "PONG";
   }
 
   public async keys(): Promise<string[]> {
