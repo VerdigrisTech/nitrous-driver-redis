@@ -166,6 +166,10 @@ describe("Redis Driver", function () {
       const actual = await cache.close();
       expect(actual).to.be.true;
       expect(cache.keys).to.throw;
+
+      // isClosed is set by the event handler so wait a bit before checking value.
+      await sleep(10);
+      expect(cache.isClosed).to.be.true;
     });
   });
 });
