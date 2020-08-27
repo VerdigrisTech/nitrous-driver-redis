@@ -22,7 +22,7 @@ export default class Redis extends Driver {
    * not found error when importing this library without installing the redis
    * package.
    */
-  protected get client(): RedisClient {
+  public get client(): RedisClient {
     if (!this._client) {
       const {
         createClient,
