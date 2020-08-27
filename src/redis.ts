@@ -91,7 +91,11 @@ export default class Redis extends Driver {
   }
 
   public async isConnected(): Promise<boolean> {
-    return !this.isClosed && (await this._ping()) === "PONG";
+    try {
+      return !this.isClosed && (await this._ping()) === "PONG";
+    } catch {
+      return false;
+    }
   }
 
   public async keys(): Promise<string[]> {
