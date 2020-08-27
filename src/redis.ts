@@ -11,6 +11,7 @@ import { RedisClient, ClientOpts, createClient as createClientFn } from "redis";
 export default class Redis extends Driver {
   private _client: RedisClient;
   private _options: ClientOpts;
+  private _closed: boolean;
 
   public constructor(options?: ClientOpts) {
     super();
@@ -23,12 +24,25 @@ export default class Redis extends Driver {
    * package.
    */
   public get client(): RedisClient {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this;
+
     if (!this._client) {
       const {
         createClient,
       }: // eslint-disable-next-line @typescript-eslint/no-var-requires
       { createClient: typeof createClientFn } = require("redis");
       this._client = createClient(this._options);
+
+      const onEnd = function () {
+        // Set closed to true when user explicitly requested close.
+        self._closed = this.closing;
+
+        // Detach event listener once closed.
+        self._client.off("end", onEnd);
+      };
+
+      this._client.on("end", onEnd);
     }
 
     return this._client;
@@ -70,8 +84,12 @@ export default class Redis extends Driver {
     return promisify(this.client.del).bind(this.client)(keys);
   }
 
+  public get isClosed(): boolean {
+    return this._closed;
+  }
+
   public async isConnected(): Promise<boolean> {
-    return (await this._ping()) === "PONG";
+    return !this.isClosed && (await this._ping()) === "PONG";
   }
 
   public async keys(): Promise<string[]> {
