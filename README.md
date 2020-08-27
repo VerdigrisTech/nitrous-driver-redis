@@ -73,6 +73,10 @@ redis.client.lolwut((version) => console.log(version));
 For more information on the Redis client, see:
 [Node Redis documentation][node-redis-docs].
 
+---
+
+Copyright © 2020 Verdigris Technologies Inc. All rights reserved.
+
 [npm-url]: https://www.npmjs.com/package/@verdigris/nitrous-driver-redis?activeTab=versions
 [version-badge]: https://img.shields.io/npm/v/@verdigris/nitrous-driver-redis?style=for-the-badge
 [node-badge]: https://img.shields.io/node/v/@verdigris/nitrous-driver-redis?style=for-the-badge
