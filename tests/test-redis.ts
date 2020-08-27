@@ -23,8 +23,21 @@ describe("Redis Driver", function () {
   });
 
   afterEach(async function () {
-    await cache.delete(["foo", "bar", "baz"]);
-    await cache.close();
+    if (!cache.isClosed) {
+      await cache.delete(["foo", "bar", "baz"]);
+      await cache.close();
+    }
+  });
+
+  describe("#isConnected", function () {
+    it("should return true when connection is established", async function () {
+      expect(await driver.isConnected()).to.be.true;
+    });
+
+    it("should return false when connection is closed", async function () {
+      await cache.close();
+      expect(await driver.isConnected()).to.be.false;
+    });
   });
 
   describe("#keys", function () {
