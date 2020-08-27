@@ -33,6 +33,7 @@ export default class Redis extends Driver {
       }: // eslint-disable-next-line @typescript-eslint/no-var-requires
       { createClient: typeof createClientFn } = require("redis");
       this._client = createClient(this._options);
+      this._closed = false;
 
       const onEnd = function () {
         // Distinguish between whether connection closed due to user request.
