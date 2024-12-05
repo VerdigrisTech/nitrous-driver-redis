@@ -76,7 +76,7 @@ For more information on the Redis client, see:
 
 ---
 
-Copyright © 2020 Verdigris Technologies Inc. All rights reserved.
+Copyright © 2020-2024 Verdigris Technologies Inc. All rights reserved.
 
 [npm-url]: https://www.npmjs.com/package/@verdigris/nitrous-driver-redis?activeTab=versions
 [version-badge]: https://img.shields.io/npm/v/@verdigris/nitrous-driver-redis?style=for-the-badge
