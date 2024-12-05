@@ -21,13 +21,13 @@
   },
   "homepage": "https://github.com/VerdigrisTech/nitrous-driver-redis#readme",
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=18.0.0"
   },
   "peerDependencies": {
     "@verdigris/nitrous": "^2.2.0"
   },
   "dependencies": {
-    "redis": "^3.0.2"
+    "redis": "^4.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",
