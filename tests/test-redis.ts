@@ -8,8 +8,10 @@ import { sleep } from "@tests/util";
 
 function getDriver(): Redis {
   return new Redis({
-    host: process.env.REDIS_HOST ?? "127.0.0.1",
-    port: +process.env.REDIS_PORT || 6379,
+    socket: {
+      host: process.env.REDIS_HOST ?? "127.0.0.1",
+      port: +process.env.REDIS_PORT || 6379,
+    },
   });
 }
 
