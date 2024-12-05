@@ -18,7 +18,7 @@ as a dependency to your project.
 To use this driver, run:
 
 ```bash
-npm install --save @verdigris/nitrous-driver-redis
+npm install --save @verdigris/nitrous-driver-redis ioredis@5
 ```
 
 Then in your code, import the package:
@@ -72,7 +72,7 @@ redis.client.lolwut((version) => console.log(version));
 ```
 
 For more information on the Redis client, see:
-[Node Redis documentation][node-redis-docs].
+[ioredis documentation][ioredis-docs].
 
 ---
 
@@ -88,4 +88,4 @@ Copyright © 2020-2024 Verdigris Technologies Inc. All rights reserved.
 [codecov-url]: https://codecov.io/gh/VerdigrisTech/nitrous-driver-redis
 [license-badge]: https://img.shields.io/github/license/verdigristech/nitrous-driver-redis?style=for-the-badge
 [nitrous-js]: https://www.npmjs.com/package/@verdigris/nitrous
-[node-redis-docs]: https://github.com/NodeRedis/node-redis
+[ioredis-docs]: https://github.com/redis/ioredis
