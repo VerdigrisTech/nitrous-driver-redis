@@ -1,6 +1,6 @@
 {
   "name": "@verdigris/nitrous-driver-redis",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Redis driver for nitrous.js",
   "author": "Andrew Jo <andrew@verdigris.co> (https://verdigris.co)",
   "license": "BSD-3-Clause",
