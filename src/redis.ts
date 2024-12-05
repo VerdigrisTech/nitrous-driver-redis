@@ -6,14 +6,18 @@
 import { promisify } from "util";
 
 import { Driver } from "@verdigris/nitrous";
-import { RedisClient, ClientOpts, createClient as createClientFn } from "redis";
+import {
+  RedisClientType,
+  RedisClientOptions,
+  createClient as createClientFn,
+} from "redis";
 
 export default class Redis extends Driver {
-  private _client: RedisClient;
-  private _options: ClientOpts;
+  private _client: RedisClientType;
+  private _options: RedisClientOptions;
   private _closed: boolean;
 
-  public constructor(options?: ClientOpts) {
+  public constructor(options?: RedisClientOptions) {
     super();
     this._options = options;
   }
@@ -23,7 +27,7 @@ export default class Redis extends Driver {
    * not found error when importing this library without installing the redis
    * package.
    */
-  public get client(): RedisClient {
+  public get client(): RedisClientType {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
 
@@ -32,7 +36,7 @@ export default class Redis extends Driver {
         createClient,
       }: // eslint-disable-next-line @typescript-eslint/no-var-requires
       { createClient: typeof createClientFn } = require("redis");
-      this._client = createClient(this._options);
+      this._client = createClient(this._options) as RedisClientType;
       this._closed = false;
 
       const onEnd = function () {
@@ -72,7 +76,7 @@ export default class Redis extends Driver {
   }
 
   private _setex(key: string, seconds: number, value: string): Promise<string> {
-    return promisify(this.client.setex).bind(this.client)(key, seconds, value);
+    return promisify(this.client.setEx).bind(this.client)(key, seconds, value);
   }
 
   private _ttl(key: string): Promise<number> {
