@@ -4,16 +4,11 @@
  */
 
 import { Driver } from "@verdigris/nitrous";
-import {
-  RedisClientType,
-  RedisClientOptions,
-  createClient as createClientFn,
-} from "redis";
+import { RedisClientType, RedisClientOptions, createClient } from "redis";
 
 export default class Redis extends Driver {
   private _client: RedisClientType;
   private _options: RedisClientOptions;
-  private _closed: boolean;
 
   public constructor(options?: RedisClientOptions) {
     super();
@@ -26,28 +21,9 @@ export default class Redis extends Driver {
    * package.
    */
   public get client(): RedisClientType {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this;
-
     if (!this._client) {
-      const {
-        createClient,
-      }: // eslint-disable-next-line @typescript-eslint/no-var-requires
-      { createClient: typeof createClientFn } = require("redis");
       this._client = createClient(this._options) as RedisClientType;
-      this._closed = false;
-
-      const onEnd = function () {
-        // Distinguish between whether connection closed due to user request.
-        if (this.closing) {
-          self._closed = true;
-
-          // Detach event listener once closed.
-          self._client.off("end", onEnd);
-        }
-      };
-
-      this._client.on("end", onEnd);
+      this._client.connect();
     }
 
     return this._client;
@@ -90,7 +66,7 @@ export default class Redis extends Driver {
   }
 
   public get isClosed(): boolean {
-    return this._closed;
+    return !this.client.isOpen;
   }
 
   public async isConnected(): Promise<boolean> {
