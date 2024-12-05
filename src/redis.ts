@@ -4,13 +4,14 @@
  */
 
 import { Driver } from "@verdigris/nitrous";
-import { RedisClientType, RedisClientOptions, createClient } from "redis";
+import { default as _Redis, RedisOptions } from "ioredis";
 
 export default class Redis extends Driver {
-  private _client: RedisClientType;
-  private _options: RedisClientOptions;
+  private _client: _Redis;
+  private _options: RedisOptions;
+  #closed: boolean;
 
-  public constructor(options?: RedisClientOptions) {
+  public constructor(options?: RedisOptions) {
     super();
     this._options = options;
   }
@@ -20,10 +21,23 @@ export default class Redis extends Driver {
    * not found error when importing this library without installing the redis
    * package.
    */
-  public get client(): RedisClientType {
+  public get client(): _Redis {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this;
+
     if (!this._client) {
-      this._client = createClient(this._options) as RedisClientType;
-      this._client.connect();
+      const onEnd = function () {
+        // Distinguish between whether connection closed due to user request.
+        self.#closed = true;
+
+        // Detach event listener once closed.
+        self._client.off("end", onEnd);
+      };
+
+      this._client = new _Redis(this._options).on("end", onEnd);
+      this._client.connect().then(() => {
+        this.#closed = false;
+      });
     }
 
     return this._client;
@@ -50,7 +64,7 @@ export default class Redis extends Driver {
   }
 
   private _setex(key: string, seconds: number, value: string): Promise<string> {
-    return this.client.setEx.bind(this.client)(key, seconds, value);
+    return this.client.setex.bind(this.client)(key, seconds, value);
   }
 
   private _ttl(key: string): Promise<number> {
@@ -66,7 +80,7 @@ export default class Redis extends Driver {
   }
 
   public get isClosed(): boolean {
-    return !this.client.isOpen;
+    return this.#closed;
   }
 
   public async isConnected(): Promise<boolean> {
