@@ -3,8 +3,6 @@
  * @module @verdigris/nitrous/drivers
  */
 
-import { promisify } from "util";
-
 import { Driver } from "@verdigris/nitrous";
 import {
   RedisClientType,
@@ -56,39 +54,39 @@ export default class Redis extends Driver {
   }
 
   private _ping(): Promise<string> {
-    return promisify(this.client.ping).bind(this.client)();
+    return this.client.ping.bind(this.client)();
   }
 
   private _keys(pattern: string): Promise<string[]> {
-    return promisify(this.client.keys).bind(this.client)(pattern);
+    return this.client.keys.bind(this.client)(pattern);
   }
 
   private _exists(...keys: string[]): Promise<number> {
-    return promisify(this.client.exists).bind(this.client)(...keys);
+    return this.client.exists.bind(this.client)(...keys);
   }
 
   private _get(key: string): Promise<string> {
-    return promisify(this.client.get).bind(this.client)(key);
+    return this.client.get.bind(this.client)(key);
   }
 
   private _set(key: string, value: string): Promise<"OK"> {
-    return promisify(this.client.set).bind(this.client)(key, value);
+    return this.client.set.bind(this.client)(key, value);
   }
 
   private _setex(key: string, seconds: number, value: string): Promise<string> {
-    return promisify(this.client.setEx).bind(this.client)(key, seconds, value);
+    return this.client.setEx.bind(this.client)(key, seconds, value);
   }
 
   private _ttl(key: string): Promise<number> {
-    return promisify(this.client.ttl).bind(this.client)(key);
+    return this.client.ttl.bind(this.client)(key);
   }
 
   private _expire(key: string, seconds: number): Promise<number> {
-    return promisify(this.client.expire).bind(this.client)(key, seconds);
+    return this.client.expire.bind(this.client)(key, seconds);
   }
 
   private _delete(keys: string | string[]): Promise<number> {
-    return promisify(this.client.del).bind(this.client)(keys);
+    return this.client.del.bind(this.client)(keys);
   }
 
   public get isClosed(): boolean {
@@ -137,7 +135,7 @@ export default class Redis extends Driver {
   }
 
   public async close(): Promise<boolean> {
-    const quit = promisify(this.client.quit).bind(this.client);
+    const quit = this.client.quit.bind(this.client);
     return (await quit()) === "OK";
   }
 }
